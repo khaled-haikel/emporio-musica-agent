@@ -327,6 +327,12 @@ def after_sales(order: dict, today: date) -> dict:
                 "legal_warranty_90d": _window(received, LEGAL_WARRANTY_DAYS, today),  # 8.1
             }
         )
+        info["if_defective"] = (
+            "troca direto na loja (4.2)"
+            if info["defect_exchange_30d_from_purchase"]["open"]
+            else "acionar a garantia do fabricante, com prazo no certificado do produto (8.2); "
+            "a loja pode intermediar se o cliente pedir (4.2)"
+        )
     elif status == "shipped":
         info["note"] = "Ainda em transporte: o prazo de arrependimento de 7 dias começa no recebimento."
         eta = _clean(order.get("estimated_delivery"))
